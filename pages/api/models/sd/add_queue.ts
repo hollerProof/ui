@@ -72,6 +72,7 @@ export default async function handler(
                 res.status(500).json({status: "error"})
             }
 
+
             break
         default:
             res.setHeader('Allow', ['POST'])

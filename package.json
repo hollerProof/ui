@@ -16,7 +16,8 @@
     "mongodb": "^4.12.1",
     "next": "12.2.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "snarkyjs": "^0.7.3"
   },
   "devDependencies": {
     "@types/node": "18.0.1",

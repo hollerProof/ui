@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { Box, Button, Text, Flex } from "@chakra-ui/react";
+import {Box, Button, Text, Flex, Image} from "@chakra-ui/react";
 
 const Home: NextPage = () => {
   // <link rel="icon" href="/favicon.ico" />
@@ -25,7 +25,9 @@ const Home: NextPage = () => {
             pb={4}
             minW={'600px'}
           >
-            <Text fontSize={"4xl"}>Holler</Text>
+            {/*<Text fontSize={"4xl"}>Holler</Text>*/}
+            {/*<Image src={'/logo.png'} alt={'Holler Logo'} />*/}
+            <Image src={'/logo.png'} objectFit="cover" objectPosition="center" h="128px" w="full" alt={'Holler Logo'} />
             <Text fontSize={"2xl"}>Proof of your Prompts</Text>
           </Flex>
 

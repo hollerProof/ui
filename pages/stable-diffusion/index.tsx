@@ -8,7 +8,7 @@ import { useState } from "react";
 const StableDiffusion: NextPage = () => {
   // <link rel="icon" href="/favicon.ico" />
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [promptId, setPromptId] = useState();
+  const [promptId, setPromptId] = useState<number | undefined>();
   return (
     <div>
       <Head>
@@ -33,7 +33,7 @@ const StableDiffusion: NextPage = () => {
             <Text fontSize={"4xl"}>Stable Diffusion</Text>
             <Text fontSize={"2xl"}>Proof of your Stable Diffusion Prompts</Text>
           </Flex>
-          <Text maxW={'600px'} textAlign={'right'} fontSize={"sm"}>Prompt Proofing is limited to 1 per 20 minute application wide, to limit the Stable Diffusion api usage. After your proof submission you are added to the queue</Text>
+          <Text maxW={'600px'} textAlign={'right'} fontSize={"sm"}>To limit the usage of the Stable Diffusion API, prompt proofing is restricted to one per 20 minutes across the entire application. After you submit your proof, you will be added to the queue.</Text>
 
           <hr></hr>
 
@@ -53,7 +53,7 @@ const StableDiffusion: NextPage = () => {
             id="prompt_id"
             placeholder="Prompt ID"
             value={promptId}
-            onChange={e => setPromptId(e.target.value)}
+            onChange={e => setPromptId(parseInt(e.target.value))}
                   width={'%25'}
           />
               <Button onClick={() => window.open('/stable-diffusion/prompt', '_self')} w={'full'}>Check Prompt Proof Status</Button>

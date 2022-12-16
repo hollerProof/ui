@@ -1,8 +1,6 @@
+import {Box, Flex, Heading, HStack, Image, Link, SimpleGrid, Tag} from "@chakra-ui/react";
 
-import { Flex, Box, FormControl, FormLabel, FormHelperText, Input, Select, SimpleGrid, Link, Image, Heading, Text, HStack, Tag } from "@chakra-ui/react";
-import { useState } from "react";
-
-export default function ExploreGrid(props: {data: any}) {
+export default function ExploreGrid(props: { data: any }) {
   const {data} = props;
 
   // <Link href="/stability-ai/stable-diffusion" className="no-default no-focus">
@@ -27,30 +25,32 @@ export default function ExploreGrid(props: {data: any}) {
   // </Box>
   // </Link>
 
+  // @ts-ignore
   return (
-    <SimpleGrid columns={{ sm: 1, md: 2, xl: 3 }} gap={{ sm:1, md: 2, xl: 4 }} autoRows={'max'}>
-      {data.map(item => (
-        <Link key={item.name}>
-          <Box h="80" mb="2">
-    <Flex h="full" w="full" overflow="hidden">
-      <Image src={item.image} alt="" objectFit="cover" objectPosition="center" h="full" w="full" />
-    </Flex>
-  </Box>
-          <Box>
-    <Flex>
-      <Heading size="md">
-        {item.name}
-      </Heading>
-    </Flex>
-    <HStack>
-      {item.tags.map(
-        tag => (
-          <Tag>{tag}</Tag>
-        )
-      )}
-    </HStack>
-  </Box>
-          </Link>
-      ))}
-</SimpleGrid>
-  )}
+      <SimpleGrid columns={{sm: 1, md: 2, xl: 3}} gap={{sm: 1, md: 2, xl: 4}} autoRows={'max'}>
+        {data.map((item: any) => (
+            <Link key={item.name}>
+              <Box h="80" mb="2">
+                <Flex h="full" w="full" overflow="hidden">
+                  <Image src={item.image} alt="" objectFit="cover" objectPosition="center" h="full" w="full"/>
+                </Flex>
+              </Box>
+              <Box>
+                <Flex>
+                  <Heading size="md">
+                    {item.name}
+                  </Heading>
+                </Flex>
+                <HStack>
+                  {item.tags.map(
+                      (tag: any) => (
+                          <Tag>{tag}</Tag>
+                      )
+                  )}
+                </HStack>
+              </Box>
+            </Link>
+        ))}
+      </SimpleGrid>
+  )
+}

@@ -4,7 +4,7 @@ import {
     PublicKey,
     PrivateKey,
     Field,
-    fetchAccount, MerkleWitness,
+    fetchAccount, MerkleWitness, Poseidon, Struct,
 } from 'snarkyjs'
 
 type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
@@ -12,6 +12,26 @@ type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
 // ---------------------------------------------------------------------------------------
 class MerkleWitness9 extends MerkleWitness(9) {}
 
+class Prompt extends Struct({
+    userPublicKey: PublicKey,
+    promptHash: Field,
+    status: Field
+}) {
+    hash(): Field {
+        return Poseidon.hash([Poseidon.hash(this.userPublicKey.toFields()), this.promptHash, this.status]);
+    }
+
+    hashQueue(): Field {
+        return Poseidon.hash([Poseidon.hash(this.userPublicKey.toFields()), this.promptHash, Field(0)]);
+    }
+
+    hashComplete(): Field {
+        return Poseidon.hash([Poseidon.hash(this.userPublicKey.toFields()), this.promptHash, Field(1)]);
+    }
+    toFields(): Field[] {
+        return this.userPublicKey.toFields().concat(this.promptHash, this.status);
+    }
+}
 
 import type { Holler } from '../contracts/Holler';
 
@@ -52,10 +72,9 @@ const functions = {
         const currentProofRoot = await state.zkapp!.proofTree.get();
         return JSON.stringify(currentProofRoot.toJSON());
     },
-    addToQueueTransaction: async (args: {}) => {
-        const queueWitness = new MerkleWitness9(tree.getWitness(BigInt(0)));
+    addToQueueTransaction: async (args: {salt: number, prompt: Prompt, leafWitness: MerkleWitness9}) => {
         const transaction = await Mina.transaction(() => {
-                state.zkapp!.add();
+                state.zkapp!.addQueue(Field(args.salt), args.prompt, args.leafWitness);
             }
         );
         state.transaction = transaction;

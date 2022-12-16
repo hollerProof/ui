@@ -10,9 +10,9 @@ const Prompts: NextPage = (props: any) => {
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    console.log(props)
-  }, []);
+  // useEffect(() => {
+  //   console.log(props)
+  // }, []);
 
   return (
     <Flex
@@ -45,7 +45,7 @@ const Prompts: NextPage = (props: any) => {
 
   );
 }
-export async function getServerSideProps({req, res}) {
+export async function getServerSideProps() {
   const res_ = await fetch('https://doublewigglydrawing.zek.repl.co/api/prompts');
   const data = await res_.json();
 

@@ -5,7 +5,7 @@ import {
     Field,
 } from 'snarkyjs'
 
-import type { ZkappWorkerRequest, ZkappWorkerReponse, WorkerFunctions } from './zkappWorker';
+import type { ZkappWorkerRequest, ZkappWorkerResponse, WorkerFunctions } from './zkappWorker';
 
 export default class ZkappWorkerClient {
 
@@ -36,14 +36,14 @@ export default class ZkappWorkerClient {
         return this._call('initZkappInstance', { publicKey58: publicKey.toBase58() });
     }
 
-    async getNum(): Promise<Field> {
-        const result = await this._call('getNum', {});
-        return Field.fromJSON(JSON.parse(result as string));
-    }
+    // async getNum(): Promise<Field> {
+    //     const result = await this._call('getNum', {});
+    //     return Field.fromJSON(JSON.parse(result as string));
+    // }
 
-    createUpdateTransaction() {
-        return this._call('createUpdateTransaction', {});
-    }
+    // createUpdateTransaction() {
+    //     return this._call('createUpdateTransaction', {});
+    // }
 
     proveUpdateTransaction() {
         return this._call('proveUpdateTransaction', {});
@@ -67,7 +67,7 @@ export default class ZkappWorkerClient {
         this.promises = {};
         this.nextId = 0;
 
-        this.worker.onmessage = (event: MessageEvent<ZkappWorkerReponse>) => {
+        this.worker.onmessage = (event: MessageEvent<ZkappWorkerResponse>) => {
             this.promises[event.data.id].resolve(event.data.data);
             delete this.promises[event.data.id];
         };

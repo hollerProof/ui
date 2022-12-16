@@ -44,7 +44,7 @@ export default function ExploreGrid(props: { data: any }) {
                 <HStack>
                   {item.tags.map(
                       (tag: any) => (
-                          <Tag>{tag}</Tag>
+                          <Tag key={tag}>{tag}</Tag>
                       )
                   )}
                 </HStack>

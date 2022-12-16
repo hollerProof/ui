@@ -45,8 +45,8 @@ const Prompts: NextPage = (props: any) => {
 
   );
 }
-export async function getServerSideProps({req, res}) {
-  const res_ = await fetch('https://doublewigglydrawing.zek.repl.co/api/prompts');
+export async function getServerSideProps(context: any) {
+  const res_ = await fetch(`${process.env.APP_URL}/api/prompts`);
   const data = await res_.json();
 
   return {

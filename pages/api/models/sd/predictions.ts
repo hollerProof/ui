@@ -45,8 +45,12 @@ export default async function handler(
                 headers: {Authorization: `Token ${replicateSecret}`, "Content-Type": "application/json"},
                 method: "POST"
             })
+            if (resp.status != 200) {
+                const error_text = await resp.text()
+                res.status(500).end(`Replicate error ${error_text}`)
+                break
+            }
             const json_resp = await resp.json();
-
             res.status(200).json({hash: JSON.stringify(json_resp)})
 
 

@@ -4,7 +4,7 @@ const nextConfig = {
     env: {
         APP_URL: process.env.APP_URL,
     },
-    swcMinify: false,
+    swcMinify: true,
     pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
     webpack(config) {
         config.resolve.alias = {

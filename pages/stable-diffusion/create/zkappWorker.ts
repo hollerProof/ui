@@ -1,6 +1,6 @@
 import {fetchAccount, Field, isReady, Mina, PublicKey,} from 'snarkyjs'
-import type {Holler} from 'holler_contracts';
-import {MerkleWitness9, Prompt} from "../../../lib/sparkyTypes";
+import type {Holler, MerkleWitness9, Prompt} from 'holler_contracts';
+// import {MerkleWitness9, Prompt} from "../../../lib/sparkyTypes";
 
 type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
 

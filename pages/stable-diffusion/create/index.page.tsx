@@ -21,7 +21,9 @@ import {useEffect, useState} from "react";
 import ZkappWorkerClient from "./zkappWorkerClient";
 import {Field, MerkleTree, Poseidon, PublicKey} from "snarkyjs";
 import './reactCOIServiceWorker';
-import {MerkleWitness9, Prompt} from "../../../lib/sparkyTypes";
+// import {MerkleWitness9, Prompt} from "../../../lib/sparkyTypes";
+import {MerkleWitness9, Prompt} from 'holler_contracts';
+
 
 let transactionFee = 0.1;
 

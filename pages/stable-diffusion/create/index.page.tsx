@@ -19,7 +19,7 @@ import {
 import CreatePromptForm from '../../../components/CreatePromptForm';
 import {useEffect, useState} from "react";
 import ZkappWorkerClient from "./zkappWorkerClient";
-import {Field, MerkleTree, Poseidon, PublicKey} from "snarkyjs";
+import {Field, MerkleTree, Mina, Poseidon, PublicKey} from "snarkyjs";
 import './reactCOIServiceWorker';
 // import {MerkleWitness9, Prompt} from "../../../lib/sparkyTypes";
 import {MerkleWitness9, Prompt} from 'holler_contracts';
@@ -132,12 +132,17 @@ const StableDiffusion: NextPage = () => {
     const tree = new MerkleTree(9);
     const leaves = state.leaves!.map((leaf) => Field(leaf));
     tree.fill(leaves);
-    const leafWitness = new MerkleWitness9(tree.getWitness(BigInt(state.count! + 1)));
-    console.log('leafWitness', leafWitness);
+    const witness = tree.getWitness(BigInt(state.count! + 1));
+    console.log('leafWitness', witness);
     console.log('prompt', prompt);
 
     console.log("prompt", promptData);
-    await state.zkappWorkerClient!.createAddToQueueTransaction(Field(22), prompt, leafWitness);
+    // const transaction = await Mina.transaction(() => {
+    //       state.zkapp!.addQueue(salt, prompt, leafWitness);
+    //     }
+    // );
+
+    await state.zkappWorkerClient!.createAddToQueueTransaction(Field(22), prompt, witness);
 
     console.log('creating proof...');
     await state.zkappWorkerClient!.proveTransaction();

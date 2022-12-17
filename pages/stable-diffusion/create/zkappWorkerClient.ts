@@ -7,6 +7,7 @@ import {
 
 import type { ZkappWorkerRequest, ZkappWorkerResponse, WorkerFunctions } from './zkappWorker';
 import {MerkleWitness9, Prompt} from "../../../lib/sparkyTypes";
+import {Witness} from "snarkyjs/dist/web/lib/merkle_tree";
 
 export default class ZkappWorkerClient {
 
@@ -42,8 +43,8 @@ export default class ZkappWorkerClient {
         return Field.fromJSON(JSON.parse(result as string));
     }
 
-    createAddToQueueTransaction(salt: Field, prompt: Prompt, leafWitness: MerkleWitness9) {
-        return this._call('createAddToQueueTransaction', {salt, prompt, leafWitness});
+    createAddToQueueTransaction(salt: Field, prompt: Prompt, witness: Witness) {
+        return this._call('createAddToQueueTransaction', {salt, prompt, witness});
     }
 
     proveTransaction() {

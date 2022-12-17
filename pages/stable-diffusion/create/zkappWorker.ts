@@ -1,5 +1,7 @@
 import {fetchAccount, Field, isReady, Mina, PublicKey,} from 'snarkyjs'
-import type {Holler, MerkleWitness9, Prompt} from 'holler_contracts';
+import type {Holler} from 'holler_contracts';
+import {MerkleWitness9, Prompt} from 'holler_contracts';
+import {Witness} from "snarkyjs/dist/web/lib/merkle_tree";
 // import {MerkleWitness9, Prompt} from "../../../lib/sparkyTypes";
 
 type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
@@ -41,9 +43,28 @@ const functions = {
         const currentProofRoot = await state.zkapp!.proofTree.get();
         return JSON.stringify(currentProofRoot.toJSON());
     },
-    createAddToQueueTransaction: async (args: {salt: Field, prompt: Prompt, leafWitness: MerkleWitness9}) => {
+    createAddToQueueTransaction: async (args: {salt: Field, prompt: Prompt, witness: Witness}) => {
+        console.log('createAddToQueueTransaction');
+        const {salt: _salt, prompt: _prompt, witness: witness} = args;
+        // console.log('salt', _salt);
+        // console.log('prompt', _prompt);
+        // console.log('leafWitness', witness);
+        const salt = Field(_salt);
+        const prompt = new Prompt(
+            {
+                userPublicKey: _prompt.userPublicKey,
+                promptHash: _prompt.promptHash,
+                status: _prompt.status,
+            }
+        )
+        // const leafWitness = new MerkleWitness9();
+        const leafWitness = new MerkleWitness9(witness);
+        // console.log('salt', salt);
+        // console.log('prompt', prompt);
+        // console.log('leafWitness', leafWitness);
+
         const transaction = await Mina.transaction(() => {
-                state.zkapp!.addQueue(args.salt, args.prompt, args.leafWitness);
+                state.zkapp!.addQueue(salt, prompt, leafWitness);
             }
         );
         state.transaction = transaction;

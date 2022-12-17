@@ -40,9 +40,9 @@ const StableDiffusion: NextPage = () => {
           <br></br>
           <Flex gap={4}>
             <Flex flexDirection={'column'} gap={4} width={'full'}>
-              <Button onClick={()=>window.open("/stable-diffusion/createProof", '_self')} w={'full'}>Prove your Prompt</Button>
+              <Button onClick={()=>window.open("/stable-diffusion/create", '_self')} w={'full'}>Create Prompt Proof</Button>
               <Flex gap={4}>
-                <Button onClick={() => window.open('/stable-diffusion/my-prompts', '_self')} w={'full'}>Your prompts</Button>
+                <Button onClick={() => window.open('/stable-diffusion/prompts/mine', '_self')} w={'full'}>Your prompts</Button>
                 <Button onClick={() => window.open('/stable-diffusion/prompts', '_self')} w={'full'}>Explore other prompts</Button>
               
               </Flex>

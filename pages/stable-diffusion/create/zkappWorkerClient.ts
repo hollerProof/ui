@@ -6,7 +6,7 @@ import {
 } from 'snarkyjs'
 
 import type { ZkappWorkerRequest, ZkappWorkerResponse, WorkerFunctions } from './zkappWorker';
-import {MerkleWitness9, Prompt} from "./sparkyTypes";
+import {MerkleWitness9, Prompt} from "../../../lib/sparkyTypes";
 
 export default class ZkappWorkerClient {
 

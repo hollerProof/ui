@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Field, method, Poseidon, PublicKey, SmartContract, State, state, Struct, MerkleWitness, Signature, Permissions, } from 'snarkyjs';
+import { Field, method, Poseidon, PublicKey, SmartContract, State, state, Struct, MerkleWitness, Signature, } from 'snarkyjs';
 class Prompt extends Struct({
     userPublicKey: PublicKey,
     promptHash: Field,
@@ -35,31 +35,27 @@ export class Holler extends SmartContract {
         this.proofTree = State();
         this.target = State();
         this.events = {
-            proved: PublicKey,
+            proved: Field,
         };
-    }
-    deploy(args) {
-        super.deploy(args);
-        const permissionToEdit = Permissions.proofOrSignature();
-        this.setPermissions({
-            ...Permissions.default(),
-            editState: permissionToEdit
-        });
     }
     init() {
         super.init();
         this.target.set(Field('17057234437185175411792943285768571642343179330449434169483610110583519635705'));
+        this.proofTree.set(Field(0));
     }
-    initState(commitment) {
-        this.proofTree.set(commitment);
+    initState(proofTree, adminSignature) {
+        adminSignature
+            .verify(this.address, proofTree.toFields())
+            .assertTrue();
+        this.proofTree.set(proofTree);
     }
     addQueue(salt, prompt, leafWitness) {
         // check leaf was empty
         leafWitness.calculateRoot(Field(0)).assertEquals(this.proofTree.get());
         this.target.assertEquals(this.target.get());
         Poseidon.hash([salt]).assertEquals(this.target.get());
-        let commitment = this.proofTree.get();
-        this.proofTree.assertEquals(commitment);
+        let proofTree = this.proofTree.get();
+        this.proofTree.assertEquals(proofTree);
         // leafWitness.calculateRoot(Poseidon.hash([salt])).assertEquals(commitment);
         let newProofTree = leafWitness.calculateRoot(prompt.hashQueue());
         this.proofTree.set(newProofTree);
@@ -73,6 +69,7 @@ export class Holler extends SmartContract {
         leafWitness.calculateRoot(prompt.hashQueue()).assertEquals(commitment);
         let newProofTree = leafWitness.calculateRoot(prompt.hashComplete());
         this.proofTree.set(newProofTree);
+        this.emitEvent('proved', newProofTree);
     }
     removeFromQueue(prompt, leafWitness, adminSignature) {
         adminSignature
@@ -96,13 +93,7 @@ __decorate([
 __decorate([
     method,
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], Holler.prototype, "init", null);
-__decorate([
-    method,
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Field]),
+    __metadata("design:paramtypes", [Field, Signature]),
     __metadata("design:returntype", void 0)
 ], Holler.prototype, "initState", null);
 __decorate([

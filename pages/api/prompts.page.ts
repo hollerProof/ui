@@ -7,7 +7,8 @@ import clientPromise from "../../lib/mongodb";
 type Prompts = {
   name: string,
   image: string,
-  tags: string[]
+  tags: string[],
+    hash: string,
 }
 
 export default async function handler(

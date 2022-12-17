@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Box, Button, Text, Flex, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Link, Image, Heading, SimpleGrid, FormControl, Input } from "@chakra-ui/react";
-import ExploreGrid from "../../components/ExploreGrid";
+import ExploreGrid from "../../../components/ExploreGrid";
 import { useState, useEffect } from "react";
 
 const Prompts: NextPage = (props: any) => {
@@ -53,7 +53,7 @@ export async function getServerSideProps() {
     data = []
   }
   try {
-      const data = await res_.json();
+      data = await res_.json();
   } catch (e) {
         console.log('error', e);
         data = []

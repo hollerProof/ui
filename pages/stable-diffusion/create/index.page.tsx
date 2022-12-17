@@ -183,11 +183,10 @@ const StableDiffusion: NextPage = () => {
             >
               <Text fontSize={"4xl"}>Stable Diffusion</Text>
               <Text fontSize={"2xl"}>Proof of your Stable Diffusion Prompts</Text>
-              {/*<Text fontSize={"xl"}>Current rootHash: {state.currentRootHash?.toString()}</Text>*/}
+              <Text color={'pink.200'} fontSize={"md"}>Please wait until system ready for connection to blockchain</Text>
             </Flex>
-            <Text maxW={'600px'} textAlign={'right'} fontSize={"sm"}>To limit the usage of the Stable Diffusion API,
-              prompt proofing is restricted to one per 20 minutes across the entire application. After you submit your
-              proof, you will be added to the queue.</Text>
+            <Text maxW={'600px'} textAlign={'right'} fontSize={"sm"}>To limit the usage of the Stable Diffusion API, prompt proofing is restricted to one per 20 minutes across the entire application. After you submit your proof, you will be added to the queue. Our oracle will run the model and add it the the chain. Total proof count is limited to 512</Text>
+
 
             <hr></hr>
 

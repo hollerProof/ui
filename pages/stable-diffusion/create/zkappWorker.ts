@@ -1,5 +1,5 @@
 import {fetchAccount, Field, isReady, Mina, PublicKey,} from 'snarkyjs'
-import type {Holler} from '../../../contracts/build/Holler';
+import type {Holler} from 'holler_contracts';
 import {MerkleWitness9, Prompt} from "../../../lib/sparkyTypes";
 
 type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
@@ -23,7 +23,7 @@ const functions = {
         Mina.setActiveInstance(Berkeley);
     },
     loadContract: async (args: {}) => {
-        const { Holler } = await import('../../../contracts/build/Holler.js');
+        const { Holler } = await import('holler_contracts');
         state.Holler = Holler;
     },
     compileContract: async (args: {}) => {

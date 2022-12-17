@@ -12,11 +12,11 @@ export default function CreatePromptForm(props: { setData: any }) {
     const {setData} = props;
     useEffect(() => {
         setData({
-            prompt,
-            negativePrompt,
-            promptStrength,
-            numInferenceSteps,
-            guidanceScale,
+            prompt: prompt,
+            negative_prompt: negativePrompt,
+            prompt_strength: promptStrength,
+            inference_steps: numInferenceSteps,
+            guidance_scale: guidanceScale,
             scheduler,
         });
     }, [prompt, negativePrompt, promptStrength, numInferenceSteps, guidanceScale, scheduler]);

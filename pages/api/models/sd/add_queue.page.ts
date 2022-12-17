@@ -53,7 +53,7 @@ export default async function handler(
                     json: {
                         prompt: body['prompt'],
                         negative_prompt: body['negative_prompt'] || "",
-                        prompt_strength: body['prompt_strength'],
+                        prompt_strength: body['prompt_strenth'],
                         inference_steps: body['inference_steps'],
                         guidance_scale: body['guidance_scale'],
                         scheduler: body['scheduler'],

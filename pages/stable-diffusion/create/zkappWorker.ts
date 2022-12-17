@@ -1,10 +1,33 @@
-import {fetchAccount, Field, isReady, Mina, PublicKey,} from 'snarkyjs'
+import {fetchAccount, Field, isReady, MerkleWitness, Mina, Poseidon, PublicKey, Struct,} from 'snarkyjs'
 import type {Holler} from 'holler_contracts';
-import {MerkleWitness9, Prompt} from 'holler_contracts';
+// import {MerkleWitness9, Prompt} from 'holler_contracts';
 import {Witness} from "snarkyjs/dist/web/lib/merkle_tree";
 // import {MerkleWitness9, Prompt} from "../../../lib/sparkyTypes";
 
 type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
+
+export class MerkleWitness9 extends MerkleWitness(9) {}
+
+export class Prompt extends Struct({
+    userPublicKey: PublicKey,
+    promptHash: Field,
+    status: Field
+}) {
+    hash(): Field {
+        return Poseidon.hash([Poseidon.hash(this.userPublicKey.toFields()), this.promptHash, this.status]);
+    }
+
+    hashQueue(): Field {
+        return Poseidon.hash([Poseidon.hash(this.userPublicKey.toFields()), this.promptHash, Field(0)]);
+    }
+
+    hashComplete(): Field {
+        return Poseidon.hash([Poseidon.hash(this.userPublicKey.toFields()), this.promptHash, Field(1)]);
+    }
+    toFields(): Field[] {
+        return this.userPublicKey.toFields().concat(this.promptHash, this.status);
+    }
+}
 
 const state = {
     Holler: null as null | typeof Holler,

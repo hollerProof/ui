@@ -10,9 +10,9 @@ const Prompts: NextPage = (props: any) => {
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState([]);
 
-  // useEffect(() => {
-  //   console.log(props)
-  // }, []);
+  useEffect(() => {
+    console.log(props)
+  }, []);
 
   return (
     <Flex
@@ -25,7 +25,7 @@ const Prompts: NextPage = (props: any) => {
     <Box maxW={{sm: '400px', md: '600px', lg: '800px' }} >
     <Button size={'xs'} colorScheme={'pink'} onClick={() => window.open('/stable-diffusion', '_self')}>{'<'} Go Back</Button>
     <Flex justifyContent={'space-between'} alignItems={'baseline'} mb={4} gap={24}>
-    <Text fontSize={'6xl'}>Your Prompts</Text>
+    <Text fontSize={'8xl'}>Explore</Text>
       <FormControl>
           <Input
             type="text"
@@ -46,8 +46,18 @@ const Prompts: NextPage = (props: any) => {
   );
 }
 export async function getServerSideProps() {
-  const res_ = await fetch('https://doublewigglydrawing.zek.repl.co/api/prompts');
-  const data = await res_.json();
+  const res_ = await fetch(`${process.env.APP_URL}/api/prompts`);
+  let data;
+  if (res_.status !== 200) {
+    console.log('error', res_.text());
+    data = []
+  }
+  try {
+    const data = await res_.json();
+  } catch (e) {
+    console.log('error', e);
+    data = []
+  }
 
   return {
     props: {

@@ -40,10 +40,10 @@ const StableDiffusion: NextPage = () => {
           <br></br>
           <Flex gap={4}>
             <Flex flexDirection={'column'} gap={4} width={'full'}>
-              <Button onClick={onOpen} w={'full'}>Create Prompt Proof</Button>
+              <Button onClick={()=>window.open("/stable-diffusion/createProof", '_self')} w={'full'}>Prove your Prompt</Button>
               <Flex gap={4}>
-                <Button onClick={() => window.open('/stable-diffusion/my-prompts', '_self')}w={'full'}>Your prompts</Button>
-                <Button onClick={() => window.open('/stable-diffusion/prompts', '_self')}w={'full'}>Explore other prompts</Button>
+                <Button onClick={() => window.open('/stable-diffusion/my-prompts', '_self')} w={'full'}>Your prompts</Button>
+                <Button onClick={() => window.open('/stable-diffusion/prompts', '_self')} w={'full'}>Explore other prompts</Button>
               
               </Flex>
               
@@ -64,26 +64,6 @@ const StableDiffusion: NextPage = () => {
           </Flex>
         </Box>
       </Flex>
-      <Modal isOpen={isOpen} onClose={onClose} size={'xl'}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create Prompt Proof</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <CreatePromptForm/>
-          </ModalBody>
-
-          <ModalFooter>
-            <Flex gap={4}>
-              <Button colorScheme='blue'>Create</Button>
-            <Button variant='ghost' mr={3} onClick={onClose}>
-              Close
-            </Button>
-            </Flex>
-            
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </div>
 
   );

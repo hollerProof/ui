@@ -6,6 +6,7 @@ import {
 } from 'snarkyjs'
 
 import type { ZkappWorkerRequest, ZkappWorkerResponse, WorkerFunctions } from './zkappWorker';
+import {MerkleWitness9, Prompt} from "./sparkyTypes";
 
 export default class ZkappWorkerClient {
 
@@ -36,17 +37,17 @@ export default class ZkappWorkerClient {
         return this._call('initZkappInstance', { publicKey58: publicKey.toBase58() });
     }
 
-    // async getNum(): Promise<Field> {
-    //     const result = await this._call('getNum', {});
-    //     return Field.fromJSON(JSON.parse(result as string));
-    // }
+    async getProofRoot(): Promise<Field> {
+        const result = await this._call('getProofRoot', {});
+        return Field.fromJSON(JSON.parse(result as string));
+    }
 
-    // createUpdateTransaction() {
-    //     return this._call('createUpdateTransaction', {});
-    // }
+    createAddToQueueTransaction(salt: Field, prompt: Prompt, leafWitness: MerkleWitness9) {
+        return this._call('createAddToQueueTransaction', {salt, prompt, leafWitness});
+    }
 
-    proveUpdateTransaction() {
-        return this._call('proveUpdateTransaction', {});
+    proveTransaction() {
+        return this._call('proveTransaction', {});
     }
 
     async getTransactionJSON() {

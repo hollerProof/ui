@@ -12,6 +12,7 @@
     "@chakra-ui/react": "^2.4.3",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@vercel/analytics": "^0.1.6",
     "framer-motion": "^6.5.1",
     "holler_contracts": "^0.1.2",
     "mongodb": "^4.12.1",

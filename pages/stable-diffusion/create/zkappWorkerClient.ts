@@ -43,8 +43,8 @@ export default class ZkappWorkerClient {
         return Field.fromJSON(JSON.parse(result as string));
     }
 
-    createAddToQueueTransaction(salt: Field, prompt: Prompt, witness: Witness) {
-        return this._call('createAddToQueueTransaction', {salt, prompt, witness});
+    createAddToQueueTransaction(userKey: string, salt: number, leaves: string[], count: number, promptData: any) {
+        return this._call('createAddToQueueTransaction', {salt, userKey, leaves, count, promptData});
     }
 
     proveTransaction() {

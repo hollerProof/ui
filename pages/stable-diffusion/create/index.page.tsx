@@ -43,7 +43,7 @@ const StableDiffusion: NextPage = () => {
     publicKey: null as null | PublicKey,
     zkappPublicKey: null as null | PublicKey,
     creatingTransaction: false,
-    leaves: null as null | number[],
+    leaves: null as null | string[],
     count: null as null | number,
   });
   useEffect(() => {
@@ -110,13 +110,6 @@ const StableDiffusion: NextPage = () => {
       }
     })();
   }, []);
-  let hashCode = function (s: any) {
-    var h = 0, l = s.length, i = 0;
-    if (l > 0)
-      while (i < l)
-        h = (h << 5) - h + s.charCodeAt(i++) | 0;
-    return h;
-  };
   const onSendTransaction = async () => {
     try {
       setState({...state, creatingTransaction: true});
@@ -124,42 +117,42 @@ const StableDiffusion: NextPage = () => {
 
       await state.zkappWorkerClient!.fetchAccount({publicKey: state.publicKey!});
 
-      const prompt = new Prompt({
-            userPublicKey: state.publicKey!,
-            promptHash: Field(Poseidon.hash([Field(hashCode(JSON.stringify(promptData)))])),
-            status: Field(0)
-          }
-      );
-      const tree = new MerkleTree(9);
-      const leaves = state.leaves!.map((leaf) => Field(leaf));
-      tree.fill(leaves);
-      const ind = state.count! + 1;
-      const witness = tree.getWitness(BigInt(ind));
-      console.log('leafWitness', witness);
-      console.log('prompt', prompt);
-
-      console.log("prompt", promptData);
-
-      // await state.zkappWorkerClient!.createAddToQueueTransaction(Field(22), prompt, witness);
-      //
-      // console.log('creating proof...');
-      // await state.zkappWorkerClient!.proveTransaction();
-      //
-      // console.log('getting Transaction JSON...');
-      // const transactionJSON = await state.zkappWorkerClient!.getTransactionJSON()
-      //
-      // console.log('requesting send transaction...');
-      // const {hash} = await (window as any).mina.sendTransaction({
-      //   transaction: transactionJSON,
-      //   feePayer: {
-      //     fee: transactionFee,
-      //     memo: '',
-      //   },
-      // });
-      //
-      // console.log(
-      //     'See transaction at https://berkeley.minaexplorer.com/transaction/' + hash
+      // const prompt = new Prompt({
+      //       userPublicKey: state.publicKey!,
+      //       promptHash: Field(Poseidon.hash([Field(hashCode(JSON.stringify(promptData)))])),
+      //       status: Field(0)
+      //     }
       // );
+      // const tree = new MerkleTree(9);
+      // const leaves = state.leaves!.map((leaf) => Field(leaf));
+      // tree.fill(leaves);
+      // const ind = state.count! + 1;
+      // const witness = tree.getWitness(BigInt(ind));
+      // console.log('leafWitness', witness);
+      // console.log('prompt', prompt);
+      //
+      // console.log("prompt", promptData);
+
+      await state.zkappWorkerClient!.createAddToQueueTransaction(state.publicKey!.toBase58(), 22, state!.leaves || [], state.count || 0, promptData);
+
+      console.log('creating proof...');
+      await state.zkappWorkerClient!.proveTransaction();
+
+      console.log('getting Transaction JSON...');
+      const transactionJSON = await state.zkappWorkerClient!.getTransactionJSON()
+
+      console.log('requesting send transaction...');
+      const {hash} = await (window as any).mina.sendTransaction({
+        transaction: transactionJSON,
+        feePayer: {
+          fee: transactionFee,
+          memo: '',
+        },
+      });
+
+      console.log(
+          'See transaction at https://berkeley.minaexplorer.com/transaction/' + hash
+      );
 
       setState({...state, creatingTransaction: false});
       // post fetch of root to add to the queue
